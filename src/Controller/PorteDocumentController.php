@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use App\Configuration\FileLocations;
+use Webmozart\PathUtil\Path;
 use App\Entity\PorteDocument;
 use App\Form\PorteDocumentType;
 use App\Utils\PathCanonicalize;
+use App\Configuration\FileLocations;
 use Symfony\Component\Finder\Finder;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\PorteDocumentRepository;
@@ -85,19 +86,20 @@ class PorteDocumentController extends AbstractController
      */
     public function show(PorteDocument $porteDocument, string $porteDocumentBasePath): Response
     {
-        //$location = $this->fileLocations->get($porteDocumentBasePath);
+        $path = $porteDocumentBasePath . '/' . $porteDocument->getNom();
+        $location = $this->fileLocations->get($porteDocumentBasePath);
 
-       // $finder = $this->findFiles($location->getBasepath(), $path);
-       // $folders = $this->findFolders($location->getBasepath(), $path);
+       $finder = $this->findFiles($location->getBasepath(), $path);
+       $folders = $this->findFolders($location->getBasepath(), $path);
 
-        //$parent = $path !== '/' ? Path::canonicalize($path . '/..') : '';
+        $parent = $path !== '/' ? Path::canonicalize($path . '/..') : '';
         return $this->render('porte_document/show.html.twig', [
             'porte_document' => $porteDocument,
-            //'parent' => $parent,
-            //  'path' => $path,
-            //  'location' => $location,
+            'parent' => $parent,
+             'path' => $path,
+             'location' => $location,
             // 'finder' => $pager,
-            // 'folders' => $folders,
+            'folders' => $folders,
         ]);
     }
 
