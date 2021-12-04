@@ -24,15 +24,16 @@ class PorteDocument
      */
     private $nom;
 
+    
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="porteDocuments")
-     */
-    private $autheur;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="porteDocument")
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="porteDocument",cascade={"persist"}, orphanRemoval=true)
      */
     private $documents;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -56,17 +57,7 @@ class PorteDocument
         return $this;
     }
 
-    public function getAutheur(): ?User
-    {
-        return $this->autheur;
-    }
-
-    public function setAutheur(?User $autheur): self
-    {
-        $this->autheur = $autheur;
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection|Document[]
@@ -94,6 +85,18 @@ class PorteDocument
                 $document->setPorteDocument(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PorteDocument{% endblock %}
+
+{% block body %}
+    <h1>PorteDocument</h1>
+
+    <table class="table table-striped">
+     <thead class="thead-light">
+    <tr>
+         <th>Id</th>
+        <th>Nom</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+     {# {% if path != '/' %}
+        <tr>
+            <td>
+                <b>
+                    <a href="{{ path('porte_document_show', {'location': location.key, 'path': parent }) }}">
+                        <i class="fas fa-folder-minus"></i>
+                        ../
+                    </a>
+                </b>
+            </td>
+            <td>
+            </td>
+        </tr>
+    {% endif %} #}
+        <tbody>
+        {# {% for directory in folders.directories() %}
+             <tr>              
+                <td>
+                 <b>
+                    {% if path != '/' %}<i class="folder-indent"></i>{% endif %}
+                    <a href="{{ path('porte_document_show', {'location': location.key, 'path': dirname }) }}">
+                        <i class="fas fa-folder"></i>
+                        {{ directory.getRelativePathname }}/
+                    </a>
+                </b>
+                
+                </td>
+            </tr>
+        {% endfor %} #}
+            <tr>              
+                <td>{{ porte_document.id }}</td>
+            </tr>
+            <tr>                
+                <td>{{ porte_document.nom }}</td>
+            </tr>
+            <tr>              
+                <td>{{ porte_document.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('porte_document_index') }}">back to list</a>
+
+    <a href="{{ path('porte_document_edit', {'id': porte_document.id}) }}">edit</a>
+
+    {{ include('porte_document/_delete_form.html.twig') }}
+{% endblock %}

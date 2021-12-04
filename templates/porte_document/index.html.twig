@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PorteDocument index{% endblock %}
+
+{% block body %}
+    <h1>PorteDocument index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for porte_document in porte_documents %}
+            <tr>
+                <td>{{ porte_document.id }}</td>
+                <td>{{ porte_document.nom }}</td>
+                <td>{{ porte_document.description }}</td>
+                <td>
+                    <a href="{{ path('porte_document_show', {'id': porte_document.id}) }}">show</a>
+                    <a href="{{ path('porte_document_edit', {'id': porte_document.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{# add a new folder #}
+    <a href="{{ path('porte_document_new') }}">Ajouter un nouveau tiroir </a>
+{% endblock %}

@@ -40,13 +40,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=PorteDocument::class, mappedBy="autheur")
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="author")
      */
-    private $porteDocuments;
+    private $documents;
+
+    
 
     public function __construct()
     {
-        $this->porteDocuments = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -134,32 +136,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|PorteDocument[]
+     * @return Collection|Document[]
      */
-    public function getPorteDocuments(): Collection
+    public function getDocuments(): Collection
     {
-        return $this->porteDocuments;
+        return $this->documents;
     }
 
-    public function addPorteDocument(PorteDocument $porteDocument): self
+    public function addDocument(Document $document): self
     {
-        if (!$this->porteDocuments->contains($porteDocument)) {
-            $this->porteDocuments[] = $porteDocument;
-            $porteDocument->setAutheur($this);
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setAuthor($this);
         }
 
         return $this;
     }
 
-    public function removePorteDocument(PorteDocument $porteDocument): self
+    public function removeDocument(Document $document): self
     {
-        if ($this->porteDocuments->removeElement($porteDocument)) {
+        if ($this->documents->removeElement($document)) {
             // set the owning side to null (unless already changed)
-            if ($porteDocument->getAutheur() === $this) {
-                $porteDocument->setAutheur(null);
+            if ($document->getAuthor() === $this) {
+                $document->setAuthor(null);
             }
         }
 
         return $this;
     }
+
+    
 }
