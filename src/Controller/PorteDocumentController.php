@@ -82,17 +82,18 @@ class PorteDocumentController extends AbstractController
     }
 
     /**
-     * @Route("/{porteDocumentBasePath}", name="porte_document_show", methods={"GET"})
+     * @Route("/{id}", name="porte_document_show", methods={"GET"})
      */
     public function show(PorteDocument $porteDocument, string $porteDocumentBasePath): Response
     {
         $path = $porteDocumentBasePath . '/' . $porteDocument->getNom();
         $location = $this->fileLocations->get($porteDocumentBasePath);
 
-       $finder = $this->findFiles($location->getBasepath(), $path);
-       $folders = $this->findFolders($location->getBasepath(), $path);
+       $finder = $this->findFiles($porteDocumentBasePath,  $porteDocument->getNom());
+       $folders = $this->findFolders($porteDocumentBasePath);
 
         $parent = $path !== '/' ? Path::canonicalize($path . '/..') : '';
+            dd($folders,$path,$parent,$location,$finder);
         return $this->render('porte_document/show.html.twig', [
             'porte_document' => $porteDocument,
             'parent' => $parent,
@@ -108,6 +109,7 @@ class PorteDocumentController extends AbstractController
      */
     public function edit(Request $request, PorteDocument $porteDocument): Response
     {
+
         $form = $this->createForm(PorteDocumentType::class, $porteDocument);
         $form->handleRequest($request);
 
@@ -156,9 +158,9 @@ class PorteDocumentController extends AbstractController
         ], Response::HTTP_SEE_OTHER);
     }
 
-    private function findFolders(string $base, string $path): Finder
+    private function findFolders(string $base): Finder
     {
-        $fullpath = PathCanonicalize::canonicalize($base, $path);
+        $fullpath = PathCanonicalize::canonicalize($base,'');
 
         $finder = new Finder();
         $finder->in($fullpath)->depth('== 0')->directories()->sortByName();

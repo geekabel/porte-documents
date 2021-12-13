@@ -1,0 +1,289 @@
+// Variables
+// ==================
+$font: 'Inter', sans-serif;
+$font-alt: 'Inter', sans-serif;
+// Font face
+// ==================
+@include font-face('Inter', '../fonts/Inter', 400 500 700, null, woff2);
+
+// Pour générer les polices : https://transfonter.org/
+.headline{
+  color: $primaryColor;
+  margin-bottom: 24px;
+  font-size: 25px;
+}
+%headline3,.headline3
+{
+  font-weight: 400;
+  font-size: 20px;
+}
+
+%headline2,.headline2 {
+  font-size: 29px;
+  font-weight: 700;
+}
+
+%headline1,.headline1 {
+  margin-bottom: 12px;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 35px;
+}
+
+%center,.center{
+
+  margin:0 auto;
+
+}
+.text__center,%text__center{
+  text-align: center;
+  justify-self: center;
+}
+.link__center {
+  display: flex;
+  justify-content: center;
+  top: 30px;
+  position: relative;
+  text-decoration: underline;
+}
+
+
+
+.text__box{
+  margin-top: space(3);
+  margin-bottom: space(3);
+}
+// Variables
+// ==================
+
+// $font: "Rubik";
+// $font-alt: $font;
+
+
+p,%style{
+  margin-top: space(2.5);
+  margin-bottom: space(2.5);
+  text-overflow: ellipsis;
+  width: 100%;
+  font-size: 17px;
+  line-height: 1.6;
+  text-align: left;
+  font-family:  $font-alt;
+}
+// Font face
+// ==================
+/*
+;
+*/
+
+%hero-title,
+.hero-title {
+  font-family: $font-alt;
+  line-height: 1.2;
+  font-weight: 100;
+  font-size: 42px;
+  margin: 8px 0 20px 0 ;
+  color: inherit;
+  strong {
+    color: var(--contrast);
+  }
+
+  @include down(675) {
+    font-size: space(4);
+  }
+}
+.hero-title-style {
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  color: $primaryColor;
+  padding-left: 75px;
+  position: relative;
+  font-size: .93em;
+  font-weight: 700;
+  margin-bottom: 20px;
+
+  &:before {
+    position: absolute;
+    content: "";
+    display: inline-block;
+    height: 2px;
+    width: 50px;
+    top: 50%;
+    background-color: $primaryColor;
+    left: 0;
+    @include down(675) {
+      width: 40px;
+
+    }
+  }
+
+  @include down(675) {
+    padding-left: 50px;
+   font-size: .70em;
+
+  }
+}
+%hero-text,
+.hero-text {
+  font-size: 18px;
+
+  strong {
+    font-weight: bold;
+  }
+
+  @include up(600) {
+    font-size: 27px;
+  }
+}
+
+%section-title,
+.section-title {
+  font-family: $font-alt;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: space(1);
+  margin-bottom: space(3);
+}
+
+%card-title {
+  font-family: $font-alt;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+%h1,
+.h1 {
+  font-family: $font-alt;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 42px;
+  line-height: 1.2;
+}
+
+%h2,
+.h2 {
+  font-weight: 700;
+  font-style: normal;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+%underlined {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: space(1);
+  margin-bottom: space(3);
+}
+
+%h3,
+.h3 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+
+  strong {
+    font-weight: bold;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Pour générer les polices : https://transfonter.org/
+
+// Alignements
+// ==================
+.text-right ,%text-right{
+  text-align: left!important;
+  font-size: 18px;
+  margin-bottom: space(2);
+}
+.text-center , %text__center{
+  text-align: center!important;
+}
+.text-inversed {
+  color: var(--color-inversed);
+}
+.reader-only {
+  display: none;
+}
+.text-danger {
+  color: var(--red);
+}
+
+
+.center{
+  position: relative;
+  margin: 0 auto;
+}
+
+
+
+@include down(900) {
+  %h1,
+  .h1 {
+    font-size: 32px;
+  }
+
+  %h2,
+  .h2 {
+
+    font-size: 26px;
+  }
+
+
+  %h3,
+  .h3 {
+    font-size: 20px;
+
+  }
+}
+
+strong{
+  font-weight: 700;
+}
+.meta ,%meta{
+  @extend %text-right;
+  color: $lightColor;
+  font-family: "Segoe UI";
+  font-size: 12px;
+  justify-self: center;
+  align-self: center;
+  margin-bottom: 0;
+
+  span{
+    display: block;
+  }
+
+}
+
+.blog__meta{
+  @extend  %meta;
+  display: flex;
+
+  span{
+    display: flex;
+    align-content: center;
+  }
+}
+
+blockquote{
+  padding: space(4);
+  margin: space(2);
+  background-color: var(--background-light);
+  border-left: 2px solid var(--contrast);
+}
+.separator{
+  margin: 0 space(2);
+  height: 100%;
+  width: 2px;
+  background-color: var(--color);
+
+}
+
+.meta__user{
+  display: flex;
+  align-items: center;
+}

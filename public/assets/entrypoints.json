@@ -1,0 +1,23 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "http://localhost:8080/assets/runtime.js",
+        "http://localhost:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-43d067.js",
+        "http://localhost:8080/assets/app.js"
+      ],
+      "css": [
+        "http://localhost:8080/assets/app.css"
+      ]
+    },
+    "css/app": {
+      "js": [
+        "http://localhost:8080/assets/runtime.js",
+        "http://localhost:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-43d067.js"
+      ],
+      "css": [
+        "http://localhost:8080/assets/css/app.css"
+      ]
+    }
+  }
+}

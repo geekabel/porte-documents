@@ -1,0 +1,72 @@
+.btn{
+  padding: space(1) space(2);
+
+  border-radius: 50px;
+  border: 1px solid white ;
+  transition: $duration;
+}
+
+.btn__primary{
+  color: white;
+  background-color: $primaryColor;
+
+  &:hover{
+    background: transparent;
+    color: $primaryColor;
+    border-color: $primaryColor;
+  }
+}
+.btn-gradient {
+  padding: 10px 16px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%) var(--contrast);
+  box-shadow: 0px 1px 2px rgba(36, 57, 141, 0.4);
+  border-radius: 4px;
+  font-family: $font-alt;
+  font-weight: bold;
+  color: #FFFFFF!important;
+  cursor: pointer;
+  transition: background .3s;
+  font-size: .9em;
+  .icon {
+    height: space(2) !important;
+    width: space(2) !important;
+  }
+
+  &:hover {
+    background: $primaryColor;
+  }
+}
+.btn-gradient:disabled {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%) #a6a6a6;
+}
+.btn-gradient .icon {
+  width: 16px;
+  height: 16px;
+  margin-right: space(1);
+}
+
+.btn__secondary{
+  @extend .btn-gradient;
+  color: var(--contrast);
+  box-shadow: inset 0 0 0 1px var(--contrast), 0 0 0 1px var(--contrast);
+  background: transparent;
+
+  &:hover {
+    color: #FFF;
+  }
+}
+
+
+
+ .disable {
+  opacity: .4;
+}
+
+.btn .loader{
+  height: 25px;
+  width: 25px;
+
+}

@@ -1,0 +1,18 @@
+        <div class="card__file">
+            <div class="flex">
+                {{ icon('folders') }}
+                <div class="flex">
+                    {% for i in 1..random(1, 3) %}
+                        <div class="owner" style="transform: translateX({{ (3 - i) * 7 }}px)">{{ i }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card_body">
+                <p class="card_body_text">
+                    {{ item.nom }}
+                </p>
+                <span class="card_body_footer">
+                {{ item.fileCount}} fichier(s)
+            </span>
+            </div>
+        </div>

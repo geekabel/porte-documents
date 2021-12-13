@@ -1,0 +1,281 @@
+// Variables
+// ==================
+$primaryColor: #078DEE;
+$secondaryColor: #b6d8f4;
+$thirdColor:  #F1F7FC;
+$lightColor: #B6C1C8;
+$erroColor: #db2929;
+$gradiant: linear-gradient(
+    120deg
+  ,$primaryColor,$secondaryColor);
+
+$duration: .5s;
+
+:root {
+  --container: 1090px ;
+
+  --color-dark: #2a3d3a;
+  --color: #121C42;
+  --color-light: #121C4299;
+  --color-inversed: $primaryColor;
+  --color-transparent: #{rgba(#121C42, 0)};
+  --color-btn: #EFFBEC;
+  --contrast: #4869EE;
+  --section-color: #f5f6f8;
+  --box-shadow: 0 0 20px rgb(0 0 0 / 13%);
+  --gap: 20px;
+  --space: 8px;
+  --border: #D5E3EC;
+  --border-light: #13cce8;
+  --background:  #fcfdfe;
+  --background-light: #fff;
+  --shadow: #D8E1E8;
+  --list-hover: var(--background);
+  --play: #F3F9FB; // Couleur de fond du bouton play
+  --space-section: 150px;
+  --card-footer: #F7FAFD;
+  --card-padding: 16px;
+  --skeleton: var(--border-light);
+  --hover: #121C42;
+
+  --header-height: 137px;
+  --home-banner-color: var(--contrast);
+  --red: #FB4635;
+  --green: #41CF7C;
+  --yellow: #FEB32B;
+
+  --meta: #183190  ;
+}
+
+.dark {
+  --color-dark: #FFF;
+  --color: #EFFBEC;
+  --color-light: #EFFBEC99;
+  --color-inversed: #121C42;
+  --contrast: #61a0f6;
+  --hover: var(--contrast);
+  --home-banner-color: #202248;
+  --gap: 20px;
+  --space: 8px;
+  --border: #122c45;
+  --background: #11172e;
+  --background-light: #202248;
+  --shadow: #0b0c1a;
+  --play: #1d1d3a;
+  --section-color: #202248 ;
+  --list-hover: #282a5a;
+  --box-shadow: 0 0 20px rgb(0 0 0 / 50%);
+  --skeleton: #0f1224;
+
+  --meta: #828590;
+  --card-footer: #{darken(#202248, 3)};
+}
+
+
+// Outils
+// ==================
+@import "tools/reset";
+@import "tools/functions";
+@import "tools/mixins";
+
+// Generic
+// ================
+
+*,*::before,*::after{
+  box-sizing: border-box;
+}
+
+.content--loaded body{
+  height: auto !important;
+}
+a:hover {
+  cursor: pointer;
+}
+ .scale,%scale{
+    transform: scale(1);
+
+    transition: $duration;
+  }
+.scale:hover{
+  transform: scale(1.05);
+}
+
+.light{
+  background: var(--background-light);
+}
+
+%shadow{
+  box-shadow: 2px 3px 20px 7px rgba(0,0,0,0.42);
+}
+
+/*
+   Modal
+ */
+
+.modal{
+  position: absolute;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.4);
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  z-index: -999;
+
+}
+// Modules
+// ==================
+@import "modules/typography";
+@import "modules/container";
+@import "modules/flex";
+@import "modules/annimation";
+
+@import "modules/alert";
+
+
+
+@import "modules/spacing";
+
+@import 'modules/btn';
+@import 'modules/grid';
+@import 'modules/icon';
+@import 'modules/block';
+@import 'modules/card';
+@import 'components/loader/loader';
+@import "modules/burger";
+@import "modules/annimation";
+@import "modules/dashboard";
+
+
+/*
+@import "modules/container";
+@import "modules/nav";
+@import 'modules/burger';
+@import 'modules/menu__icon__cross';
+
+@import 'modules/404';*/
+// Pages
+// ==================
+
+
+// @import "pages/single";
+// @import "pages/single";
+// @import "pages/single";
+
+
+
+
+
+// Grille
+// ==================
+
+
+// Stacks
+// ==================
+%stack,
+.stack,
+.stack-large,
+.stack-separated {
+  --gap: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: flex-start;
+  grid-gap: calc(var(--gap) * var(--space));
+}
+
+.stack-large {
+  --gap: 4;
+}
+
+.stack-separated {
+  --gap: 3;
+  --gap-separated: var(--gap);
+  grid-gap: calc(var(--gap) * var(--space) * 2);
+}
+
+.stack-separated > * + * {
+  position: relative;
+}
+
+.stack-separated > * + *::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  width: 100%;
+  background: var(--border-light);
+  top: calc(var(--gap-separated) * var(--space) * -1);
+}
+
+%hstack > * + * {
+  margin-left: calc(var(--gap) * var(--space));;
+}
+
+.hstack > * + * {
+  margin-left: space(2);
+}
+
+.hstack-large > * + * {
+  margin-left: space(4);
+}
+
+// Layout
+// ==================
+.layout-sidebar {
+  @extend %container;
+  display: grid;
+  grid-gap: space(3);
+  grid-template-columns: 100%;
+
+  @include up(1100) {
+    grid-template-columns: calc(100% - 385px) 385px;
+  }
+}
+
+.sticky {
+  position: sticky;
+  top: space(3);
+}
+
+// Spaces
+// =============
+@for $i from 1 through 3 {
+  .p#{$i} {
+    padding: space($i);
+  }
+  .py#{$i} {
+    padding-top: space($i);
+    padding-bottom: space($i);
+  }
+  .ml#{$i} {
+    margin-left: space($i);
+  }
+  .mt#{$i}, %mt#{$i} {
+    margin-top: space($i);
+  }
+  .mb#{$i} {
+    margin-bottom: space($i);
+  }
+}
+// Variables
+// ==================
+
+
+
+.card,
+%card {
+  background: var(--background-light);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px var(--shadow);
+  border-radius: 3px;
+  transition: .3s;
+  font-size: .9em;
+}
+@import "modules/menu__icon__cross";
+
+
+

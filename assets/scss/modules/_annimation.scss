@@ -1,0 +1,66 @@
+.reveal-loaded .reveal [class*="reveal-"] {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.reveal-loaded [class*="reveal"]{
+  transition: 1.5s cubic-bezier(.5, 0, 0, 1);
+}
+[data-speed]{
+  opacity: 0;
+
+}
+/* On ajoute du délai */
+.reveal-loaded .reveal-2 {
+  transition-delay: .1s;
+}
+.reveal-loaded .reveal-3 {
+  transition-delay: .2s;
+}
+.reveal-loaded .reveal-4 {
+  transition-delay: .3s;
+}
+.reveal-loaded .reveal-5 {
+  transition-delay: .4s;
+}
+.reveal-loaded .reveal-6 {
+  transition-delay: .5s;
+}
+.reveal-loaded .reveal-7 {
+  transition-delay: .6s;
+}
+.reveal-loaded .reveal-8 {
+  transition-delay: .3s;
+}
+.reveal-loaded .reveal [class*="reveal-"] {
+  opacity: 0!important;
+  animation: none!important;
+  transition: 0s!important;
+}
+.reveal-loaded [class*="reveal-"]{
+  animation: revealAnimation 1s cubic-bezier(.5, 0, 0, 1) both;
+}
+.reveal-loaded .reveal-2 {
+  animation-delay: .1s;
+}
+.reveal-loaded .reveal-3 {
+  animation-delay: .2s;
+}
+.reveal-loaded .reveal-4 {
+  animation-delay: .3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-loaded  [class*="reveal-"] {
+    animation: none!important;
+  }
+}
+
+@keyframes revealAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

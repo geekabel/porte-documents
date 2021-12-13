@@ -1,0 +1,30 @@
+
+.loader-double{
+  vertical-align: middle;
+
+  border-radius: 50px;
+  border: solid 6px transparent;
+  border-top-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+
+  animation: spin $duration-loader linear infinite;
+}
+.loader-double:after{
+  position: absolute;
+  content: '';
+
+
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+
+  border: 6px solid transparent ;
+  border-top-color: #FFF;
+  border-bottom-color: #FFF;
+  opacity: 0.5;
+
+  border-radius: 50px;
+  animation: spinreverse $duration-loader*2 linear infinite;
+}
+

@@ -1,0 +1,69 @@
+$duration-loader:2s;
+/**
+  Loader Genirque styile
+ */
+.loader{
+  position:  relative;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+}
+/**
+ *Html code span.loader.loader-[quart,double,circles]
+ */
+
+
+@import "loader-quart";
+@import "loader-double";
+@import "loader-circles";
+
+/**
+*html code span.loader.loader-bars span
+ */
+@import "loader-bars";
+
+/**
+*Loader ovrelay
+ */
+
+.content--loaded .loader--overlay {
+  display: none;
+}
+
+.loader--overlay{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--contrast);
+  height: 100vh;
+  overflow: hidden;
+  z-index: 20000;
+
+}
+/**
+ *Loader Animation
+ */
+
+@keyframes  grow {
+  0%{transform: scaleY(0); opacity: 0}
+  50%{transform: scaleY(1); opacity: 1}
+  100%{transform: scaleY(0); opacity: 0}
+
+}
+@keyframes spin {
+  0%{transform: rotate(0deg)}
+  100%{transform: rotate(360deg )}
+
+}
+@keyframes spinreverse {
+  0%{transform: rotate(0deg)}
+  100%{transform: rotate(-360deg)}
+
+}

@@ -1,0 +1,35 @@
+@each $i in 1,2,3,4{
+  .mb-#{$i}{
+  margin-bottom: space($i);
+}
+
+  .mr-#{$i}{
+    margin-right:  space($i);
+  }
+
+  .mt-#{$i}{
+    margin-top:  space($i);
+  }
+
+  .ml-#{$i}{
+    margin-left:  space($i);
+  }
+
+
+  .pb-#{$i}{
+    padding-bottom: space($i);
+  }
+
+  .pr-#{$i}{
+    padding-right:  space($i);
+  }
+
+  .pt-#{$i}{
+    padding-top:  space($i);
+  }
+
+  .pl-#{$i} {
+    padding-left: space($i);
+  }
+
+}

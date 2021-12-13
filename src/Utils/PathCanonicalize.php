@@ -8,7 +8,7 @@ use Webmozart\PathUtil\Path;
 
 class PathCanonicalize
 {
-    public static function canonicalize(string $basePath, string $filename): string
+    public static function canonicalize(string $basePath, ?string $filename): string
     {
         $path = Path::canonicalize($basePath . DIRECTORY_SEPARATOR . $filename);
 

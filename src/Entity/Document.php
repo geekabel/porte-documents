@@ -3,7 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\DocumentRepository;
+use App\Utils\PathCanonicalize;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use function Webmozart\Assert\Tests\StaticAnalysis\length;
 
 /**
  * @ORM\Entity(repositoryClass=DocumentRepository::class)
@@ -26,7 +30,7 @@ class Document
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -61,6 +65,15 @@ class Document
     private $author;
 
     private $file;
+    public ?string $extension = NULL;
+    public ?string $tempFilename = NULL;
+    public ?string $name = NULL;
+
+    public  function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -72,111 +85,18 @@ class Document
 		return $this->file;
 	}
 
+    /**
+     * @param null $file
+     * @ORM\PostUpdate
+     * @ORM\PostUpdate()
+     */
 	public function setFile($file = null)
 	{
 		$this->file = $file;
 
-		// Replacing a file ? Check if we already have a file for this entity
-		if (null !== $this->extension)
-		{
-			// Save file extension so we can remove it later
-			$this->tempFilename = $this->extension;
-
-			// Reset values
-			$this->extension = null;
-			$this->name = null;
-		}
 	}
 
-    /**
-	* @ORM\PrePersist()
-	* @ORM\PreUpdate()
-	*/
-	public function preUpload()
-	{
-		// If no file is set, do nothing
-		if (null === $this->file)
-		{
-			return;
-		}
 
-		// The file name is the entity's ID
-		// We also need to store the file extension
-		$this->extension = $this->file->guessExtension();
-
-		// And we keep the original name
-		$this->name = $this->file->getClientOriginalName();
-	}
-    /**
-	* @ORM\PostPersist()
-	* @ORM\PostUpdate()
-	*/
-	public function upload()
-	{
-		// If no file is set, do nothing
-		if (null === $this->file)
-		{
-			return;
-		}
-
-		// A file is present, remove it
-		if (null !== $this->tempFilename)
-		{
-			$oldFile = $this->getUploadRootDir().'/'.$this->id.'.'.$this->tempFilename;
-			if (file_exists($oldFile))
-			{
-				unlink($oldFile);
-			}
-		}
-
-		// Move the file to the upload folder
-		$this->file->move(
-			$this->getUploadRootDir(),
-			$this->id.'.'.$this->extension
-		);
-	}
-
-	/**
-	* @ORM\PreRemove()
-	*/
-	public function preRemoveUpload()
-	{
-		// Save the name of the file we would want to remove
-		$this->tempFilename = $this->getUploadRootDir().'/'.$this->id.'.'.$this->extension;
-	}
-
-	/**
-	* @ORM\PostRemove()
-	*/
-	public function removeUpload()
-	{
-		// PostRemove => We no longer have the entity's ID => Use the name we saved
-		if (file_exists($this->tempFilename))
-		{
-			// Remove file
-			unlink($this->tempFilename);
-		}
-	}
-    public function getUploadDir()
-	{
-		// Upload directory
-		return 'uploads/documents/';
-		// This means /web/uploads/documents/
-	}
-
-	protected function getUploadRootDir()
-	{
-		// On retourne le chemin relatif vers l'image pour notre code PHP
-		// Image location (PHP)
-		return __DIR__.'/../web/'.$this->getUploadDir();
-	}
-
-	public function getUrl()
-	{
-		return $this->id.'.'.$this->extension;
-	}
-
-    
     public function getDescription(): ?string
     {
         return $this->description;
@@ -272,4 +192,14 @@ class Document
 
         return $this;
     }
+public function getExtension(): String {
+    $var = explode( '.' ,$this->getFilename());
+    if(count($var)> 0) {
+        return end($var);
+    }
+    return  '';
+}
+
+
+
 }

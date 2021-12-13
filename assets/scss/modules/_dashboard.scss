@@ -1,0 +1,101 @@
+.side_bar{
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  padding: space(1) 0;
+
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+}
+
+.side_bar_header {
+  height: 80px;
+  width: 100px;
+  padding: space(1) space(1);
+  display: block;
+  background: url("../images/Dropbox_Icon.svg") no-repeat center ;
+
+}
+
+.side_bar_items {
+  width: 100%;
+  height: 80px;
+  padding: space(2);
+  color: $lightColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 2px solid transparent;
+  transition: .6s  ;
+
+  &:hover , &.active{
+    background-color: $thirdColor;
+
+    border-right: 2px solid $primaryColor;
+    .icon {
+      fill: $primaryColor;
+    }
+    &.danger{
+      color: $erroColor;
+      &:hover , &.active{
+        border-color: $erroColor;
+        .icon {
+          fill: $erroColor;
+        }
+        & .side_bar_items_text {
+          color: $erroColor;
+        }
+      }
+    }
+  }
+
+  & .icon {
+    width: space(3) !important;
+    height: space(3) !important;
+    fill: $secondaryColor;
+
+    margin-right: 0;
+
+    &:hover, .active & {
+      fill: $primaryColor;
+    }
+
+  }
+}
+
+.side_bar_items_text {
+  font-weight: bold;
+  font-size: 10px !important;
+  text-transform: uppercase;
+  margin-top: 8px;
+  color: $lightColor ;
+
+}
+.dashboard_content{
+  width: 100%;
+  min-height: 100vh;
+  padding: space(1) space(4) 0 space(4);
+  background-color: $thirdColor;
+}
+
+.content_header {
+  height: 80px;
+  width: 100%;
+  padding: space(1) space(1);
+  color: $lightColor;
+  border-bottom:  1.5px solid $lightColor;
+  margin-bottom: space(2);
+  .icon{
+    width: space(2) !important;
+    height: space(2)!important ;
+  }
+  .icon + .icon {
+    margin-left:  space(3);
+  }
+}
+.header_brand_text {
+  font-family: $font-alt;
+  font-weight: bold;
+  color: $primaryColor;
+}

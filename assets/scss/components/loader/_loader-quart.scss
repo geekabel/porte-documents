@@ -1,0 +1,24 @@
+.loader-quart{
+  vertical-align: middle;
+
+  border-radius: 50px;
+  border: solid 6px rgba(255,2555,255,0.4);
+}
+
+.loader-quart:after{
+  position: absolute;
+  content: '';
+
+
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+
+  border: 6px solid transparent ;
+  border-top-color: #FFF;
+
+  border-radius: 50px;
+  animation: spin $duration-loader linear infinite;
+}
+

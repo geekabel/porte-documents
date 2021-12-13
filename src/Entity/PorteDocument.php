@@ -100,4 +100,13 @@ class PorteDocument
 
         return $this;
     }
+
+    public function getFileCount():int {
+        return count ($this->documents);
+    }
+
+    public function  __toString(): String
+    {
+        return $this->nom;
+    }
 }
