@@ -10,7 +10,8 @@ $font-alt: 'Inter', sans-serif;
 .headline{
   color: $primaryColor;
   margin-bottom: 24px;
-  font-size: 25px;
+  font-size: 18px;
+  font-weight: bold;
 }
 %headline3,.headline3
 {
@@ -125,14 +126,14 @@ p,%style{
 }
 %hero-text,
 .hero-text {
-  font-size: 18px;
+  font-size: 16px;
 
   strong {
     font-weight: bold;
   }
 
   @include up(600) {
-    font-size: 27px;
+    font-size: 16px;
   }
 }
 
@@ -144,6 +145,7 @@ p,%style{
   border-bottom: 1px solid var(--border);
   padding-bottom: space(1);
   margin-bottom: space(3);
+  width: 100%;
 }
 
 %card-title {
@@ -286,4 +288,10 @@ blockquote{
 .meta__user{
   display: flex;
   align-items: center;
+}
+
+.meta_detail {
+  @extend  %meta;
+  font-size: 16px;
+  font-weight: bold;
 }

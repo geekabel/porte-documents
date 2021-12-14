@@ -19,16 +19,20 @@ class DocumentEventListener implements EventSubscriberInterface
      * @var Security
      */
     private Security $security;
+    private string $trashBasePath;
+    private bool $deleteData = false;
 
     /**
      * DocumentEventListener constructor.
      * @param string $porteDocumentBasePath
      * @param Security $security
+     * @param string $trashBasePath
      */
-    public function __construct(string  $porteDocumentBasePath, Security $security)
+    public function __construct(string  $porteDocumentBasePath, Security $security,string  $trashBasePath)
     {
         $this->porteDocumentBasePath = $porteDocumentBasePath;
         $this->security = $security;
+        $this->trashBasePath = $trashBasePath;
     }
 
     public function getSubscribedEvents(): array
@@ -38,6 +42,9 @@ class DocumentEventListener implements EventSubscriberInterface
                 Events::postRemove,
                 Events::postUpdate,
                 Events::prePersist,
+               // Events::preRemove,
+                Events::preUpdate,
+
             ];
     }
 
@@ -46,12 +53,26 @@ class DocumentEventListener implements EventSubscriberInterface
      * @param LifecycleEventArgs $event
      * @throws \Exception
      */
-    public  function postRemove( LifecycleEventArgs $event): void  {
+    public  function preUpdate( LifecycleEventArgs $event): void
+    {
+        $document = $event->getObject();
+        $manager = $event->getObjectManager()  ;
+        if ($document instanceof Document && $document->getIsDelete())  {
+
+          $this->deleteData = true;
+        }
+    }
+    /**
+     * Evenement permetant de suprimer le fichier lié a un docmument
+     * @param LifecycleEventArgs $event
+     * @throws \Exception
+     */
+   /* public  function postRemove( LifecycleEventArgs $event): void  {
         if ($event->getObject() instanceof Document) {
             try {
                 $document = $event->getObject();
                  $objectManager = $event->getObjectManager();
-                 unlink($this->getFielPath($document->getPorteDocument()->getNom(),$document->getFilename()));
+                 rename($this->getFielPath($document->getPorteDocument()->getNom(),$document->getFilename()),$this->getTrashFilePath($document->getPorteDocument()->getNom(),$document->getFilename()));
                      } catch (\Exception $exception) {
                 echo "An error occurred while creating your directory at ".$exception->getPath();
 
@@ -63,7 +84,7 @@ class DocumentEventListener implements EventSubscriberInterface
         }else {
             return;
         }
-    }
+    }*/
 
     /**
      * Evenement permetant de spécifier le nom du fichier avant la persistance au niveau de la base de donnée {Numero de refrence} - {le nom originel du fichier}
@@ -71,9 +92,10 @@ class DocumentEventListener implements EventSubscriberInterface
      */
     public  function prePersist(LifecycleEventArgs $event) :void {
         $document = $event->getObject();
-        $manager = $event->getObjectManager();
+        $manager = $event->getObjectManager()  ;
         if ($document instanceof Document ) {
-            $file =  $document->getFile();
+                    $file =  $document->getFile();
+                    $document->setSize($file->getSize());
 
             $document->setFileName($document->getRefnumero() . '-'. $file->getClientOriginalName());
 
@@ -116,12 +138,27 @@ class DocumentEventListener implements EventSubscriberInterface
             $document->setFileName($document->getRefnumero() . '-'. $file->getClientOriginalName());
             //suppression de l'espace avant le numero de refernce
             $document->setRefnumero(trim($document->getRefnumero()));
+            //Reset file size
+            $document->setSize($file->getSize());
+
             //réinitialisation du champ de type Fichier
             $document->setFile(null);
             //Ajout du nouveau fichier
             $file->move($this->getDirectory( $document->getPorteDocument()->getNom()), $document->getFilename());
             //persisatnce des modification des champ dans la BD
             $manager->flush();
+        } else if ($this->deleteData == true) {
+            $this->deleteData = false;
+          //  dd($this->getFielPath($document->getPorteDocument()->getNom(),$document->getFilename()),$this->getTrashFilePath($document->getPorteDocument()->getNom(),$document->getFilename()));
+            try {
+                rename($this->getFielPath($document->getPorteDocument()->getNom(),$document->getFilename()),$this->getTrashFilePath($document->getPorteDocument()->getNom(),$document->getFilename()));
+            } catch (\Exception $exception) {
+                echo "An error occurred while creating your directory at ".$exception->getPath();
+
+                $manager->persist($document);
+                $manager->flush();
+                throw $exception;
+            }
         }
 
     }

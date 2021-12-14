@@ -141,6 +141,16 @@ class PorteDocument
     public function setIsDelete(bool $is_delete): self
     {
         $this->is_delete = $is_delete;
+        if($this->is_delete == true) {
+           foreach ($this->documents as $document) {
+               if (!$document->getIsDelete()) {
+                   $document->setIsDelete($is_delete);
+                   $document->setDeleteAt(new \DateTimeImmutable());
+               }
+
+           }
+        }
+
 
         return $this;
     }

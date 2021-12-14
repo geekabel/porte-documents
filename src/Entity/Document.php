@@ -14,6 +14,8 @@ use function Webmozart\Assert\Tests\StaticAnalysis\length;
  */
 class Document
 {
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -252,6 +254,14 @@ public function setIsDelete(bool $is_delete): self
     return $this;
 }
 
+
+    public function getSizeFormat(): ?string
+    {
+        $base = log($this->size) / log(1024);
+        $suffix = array("B", "KB", "MB", "GB", "TB");
+        $f_base = floor($base);
+        return round(pow(1024, $base - floor($base)), 1) . $suffix[$f_base];
+    }
 
 
 }

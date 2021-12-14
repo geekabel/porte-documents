@@ -19,6 +19,19 @@ class PorteDocumentRepository extends ServiceEntityRepository
         parent::__construct($registry, PorteDocument::class);
     }
 
+
+    public function findAvailable()
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('d')
+            ->leftJoin('p.documents', 'd')
+            ->andWhere("d.is_delete = false")
+            ->orWhere('d is null')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return PorteDocument[] Returns an array of PorteDocument objects
     //  */

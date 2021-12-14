@@ -41,7 +41,7 @@ class DocumentController extends AbstractController
     public function index(): Response
     {
         return $this->render('document/index.html.twig', [
-            'documents' => $this->documentRepository->findAll(),
+            'documents' => $this->documentRepository->findWhereNotDelete(),
         ]);
     }
 
@@ -113,7 +113,9 @@ class DocumentController extends AbstractController
     public function delete(Request $request, Document $document): Response
     {
         if ($this->isCsrfTokenValid('delete'.$document->getId(), $request->request->get('_token'))) {
-            $this->entityManager->remove($document);
+            $document->setIsDelete(true);
+            $document->setDeleteAt(new \DateTimeImmutable());
+            //$this->entityManager->remove($document);
             $this->entityManager->flush();
         }
 

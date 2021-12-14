@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\DocumentRepository;
 use Webmozart\PathUtil\Path;
 use App\Entity\PorteDocument;
 use App\Form\PorteDocumentType;
@@ -24,7 +25,7 @@ class PorteDocumentController extends AbstractController
 {
 
     public function __construct(EntityManagerInterface $em, Filesystem $filesystem, FileLocations $fileLocations)
-   
+
     {
         $this->em = $em;
         $this->filesystem = $filesystem;
@@ -34,19 +35,22 @@ class PorteDocumentController extends AbstractController
     /**
      * @Route("/", name="porte_document_index", methods={"GET"})
      */
-    public function index(PorteDocumentRepository $porteDocumentRepository): Response
+    public function index(PorteDocumentRepository $porteDocumentRepository,DocumentRepository $documentRepository): Response
     {
+        $porteDocuments = $porteDocumentRepository->findAvailable();
+        $document = $documentRepository->find(1);
         return $this->render('porte_document/index.html.twig', [
-            'porte_documents' => $porteDocumentRepository->findAll(),
+            'porte_documents' => $porteDocuments,
+            'document' => $document
         ]);
     }
 
     /**
      * @Route("/new", name="porte_document_new", methods={"GET","POST"})
      */
-    function new (Request $request, string $porteDocumentBasePath): Response {
+    function new(Request $request, string $porteDocumentBasePath): Response
+    {
 
-        // dd($porteDocumentBasePath);
         $porteDocument = new PorteDocument();
         $form = $this->createForm(PorteDocumentType::class, $porteDocument);
         $form->handleRequest($request);
@@ -59,13 +63,13 @@ class PorteDocumentController extends AbstractController
                 try {
                     $fullPath = $porteDocumentBasePath . '/' . $data->getNom();
                     $folder = $filesystem->mkdir($fullPath);
-                     $this->addFlash('success', 'porte-document.create_folder_success');
+                    $this->addFlash('success', 'porte-document.create_folder_success');
                     //dd($folder);
                     $this->em->persist($porteDocument);
                     $this->em->flush();
                 } catch (IOExceptionInterface $exception) {
                     echo "Une erreur s'est produite lors de la création de votre dossier à " . $exception->getPath();
-                      $this->addFlash('danger', 'porte-document.create_folder_error');
+                    $this->addFlash('danger', 'porte-document.create_folder_error');
                 }
             }
             // $this->em->persist($porteDocument);
@@ -89,16 +93,15 @@ class PorteDocumentController extends AbstractController
         $path = $porteDocumentBasePath . '/' . $porteDocument->getNom();
         $location = $this->fileLocations->get($porteDocumentBasePath);
 
-       $finder = $this->findFiles($porteDocumentBasePath,  $porteDocument->getNom());
-       $folders = $this->findFolders($porteDocumentBasePath);
+        $finder = $this->findFiles($porteDocumentBasePath,  $porteDocument->getNom());
+        $folders = $this->findFolders($porteDocumentBasePath);
 
         $parent = $path !== '/' ? Path::canonicalize($path . '/..') : '';
-            dd($folders,$path,$parent,$location,$finder);
         return $this->render('porte_document/show.html.twig', [
             'porte_document' => $porteDocument,
             'parent' => $parent,
-             'path' => $path,
-             'location' => $location,
+            'path' => $path,
+            'location' => $location,
             // 'finder' => $pager,
             'folders' => $folders,
         ]);
@@ -128,12 +131,15 @@ class PorteDocumentController extends AbstractController
     /**
      * @Route("/{id}", name="porte_document_delete", methods={"POST"})
      */
-    public function delete(Request $request, PorteDocument $porteDocument): Response
+    public function delete(Request $request, PorteDocument $porteDocument, string $porteDocumentBasePath): Response
     {
         if ($this->isCsrfTokenValid('delete' . $porteDocument->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($porteDocument);
-            $entityManager->flush();
+            $porteDocument->setIsDelete(true);
+            $porteDocument->setDeleteAt(new \DateTimeImmutable());
+
+            //  $this->entityManager->remove($porteDocument);
+            $this->em->flush();
+            rmdir($porteDocumentBasePath . '/' . $porteDocument->getNom());
         }
         // $path = $this->getFromRequest('path');
         // $location = $this->getFromRequest('location');
@@ -160,7 +166,7 @@ class PorteDocumentController extends AbstractController
 
     private function findFolders(string $base): Finder
     {
-        $fullpath = PathCanonicalize::canonicalize($base,'');
+        $fullpath = PathCanonicalize::canonicalize($base, '');
 
         $finder = new Finder();
         $finder->in($fullpath)->depth('== 0')->directories()->sortByName();

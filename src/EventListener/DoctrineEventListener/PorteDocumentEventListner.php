@@ -28,6 +28,8 @@ class PorteDocumentEventListner implements EventSubscriberInterface
      */
     private PorteDocumentRepository $porteDocumentRepository;
 
+    private bool $delte = false;
+
     /**
      * @var String
      */
@@ -50,7 +52,7 @@ class PorteDocumentEventListner implements EventSubscriberInterface
         return [
             Events::postRemove,
             Events::preUpdate,
-            Events::postLoad
+            Events::postLoad,
         ];
     }
 
@@ -66,6 +68,18 @@ class PorteDocumentEventListner implements EventSubscriberInterface
         }
 
     }
+
+
+    /*public  function postUpDate( LifecycleEventArgs $event): void  {
+        $porteDocument = $event->getObject();
+        if ($porteDocument instanceof PorteDocument) {
+           if($this->delte) {
+               rmdir($this->getDirectory($porteDocument->getNom()));
+               $this->delte = false;
+           }
+        }
+
+    }*/
 
     /**
      * Suppression du porte document et des document
@@ -93,8 +107,11 @@ class PorteDocumentEventListner implements EventSubscriberInterface
          * @var PorteDocument
          */
         $porteDocument = $event->getObject();
-        if ($event->getObject() instanceof PorteDocument) {
+        if ($porteDocument instanceof PorteDocument) {
            // dd($this->oldName , $porteDocument->getNom(), $this->oldName !== $porteDocument->getNom());
+            if ($porteDocument->getIsDelete()) {
+                $this->delte =  true;
+            }
             if($this->oldName !== $porteDocument->getNom()){
                 rename( $this->getDirectory($this->oldName),$this->getDirectory( $porteDocument->getNom()));
             }

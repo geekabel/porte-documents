@@ -4,13 +4,8 @@
   "assets/css/app.css": "http://localhost:8080/assets/css/app.css",
   "assets/runtime.js": "http://localhost:8080/assets/runtime.js",
   "assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-43d067.js": "http://localhost:8080/assets/vendors-node_modules_mini-css-extract-plugin_dist_hmr_hotModuleReplacement_js-node_modules_we-43d067.js",
-  "assets/vendors-node_modules_core-js_modules_es_array_concat_js-node_modules_core-js_modules_es_array-a085be.js": "http://localhost:8080/assets/vendors-node_modules_core-js_modules_es_array_concat_js-node_modules_core-js_modules_es_array-a085be.js",
-  "assets/images/check.svg": "http://localhost:8080/assets/images/check.504d2344.svg",
-  "assets/images/play.svg": "http://localhost:8080/assets/images/play.09f75f1f.svg",
-  "assets/vendors-node_modules_webpack-dev-server_client_index_js_protocol_ws_3A_hostname_localhost_por-f86214.js": "http://localhost:8080/assets/vendors-node_modules_webpack-dev-server_client_index_js_protocol_ws_3A_hostname_localhost_por-f86214.js",
-  "assets/images/index.png": "http://localhost:8080/assets/images/index.3167f562.png",
-  "assets/images/Dropbox_Icon.svg": "http://localhost:8080/assets/images/Dropbox_Icon.7f1fdf91.svg",
   "assets/fonts/Inter-Bold.woff2": "http://localhost:8080/assets/fonts/Inter-Bold.96ea7364.woff2",
   "assets/fonts/Inter-Medium.woff2": "http://localhost:8080/assets/fonts/Inter-Medium.afe7b17d.woff2",
-  "assets/fonts/Inter-Regular.woff2": "http://localhost:8080/assets/fonts/Inter-Regular.22abbcbd.woff2"
+  "assets/fonts/Inter-Regular.woff2": "http://localhost:8080/assets/fonts/Inter-Regular.22abbcbd.woff2",
+  "assets/images/Dropbox_Icon.svg": "http://localhost:8080/assets/images/Dropbox_Icon.7f1fdf91.svg"
 }

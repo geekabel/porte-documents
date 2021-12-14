@@ -19,6 +19,24 @@ class DocumentRepository extends ServiceEntityRepository
         parent::__construct($registry, Document::class);
     }
 
+    public function findWhereNotDelete()
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.is_delete = false')
+            ->orderBy('d.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findWhereDelete()
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.is_delete = true')
+            ->orderBy('d.delete_at', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Document[] Returns an array of Document objects
     //  */
