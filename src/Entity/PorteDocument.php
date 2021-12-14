@@ -35,9 +35,20 @@ class PorteDocument
      */
     private $description;
 
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $delete_at;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_delete;
+
     public function __construct()
     {
         $this->documents = new ArrayCollection();
+        $this->is_delete = false;
     }
 
     public function getId(): ?int
@@ -108,5 +119,29 @@ class PorteDocument
     public function  __toString(): String
     {
         return $this->nom;
+    }
+
+    public function getDeleteAt(): ?\DateTimeImmutable
+    {
+        return $this->delete_at;
+    }
+
+    public function setDeleteAt(?\DateTimeImmutable $delete_at): self
+    {
+        $this->delete_at = $delete_at;
+
+        return $this;
+    }
+
+    public function getIsDelete(): ?bool
+    {
+        return $this->is_delete;
+    }
+
+    public function setIsDelete(bool $is_delete): self
+    {
+        $this->is_delete = $is_delete;
+
+        return $this;
     }
 }

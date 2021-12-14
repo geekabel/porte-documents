@@ -69,10 +69,26 @@ class Document
     public ?string $tempFilename = NULL;
     public ?string $name = NULL;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $size;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $delete_at;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_delete;
+
     public  function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->is_delete = false;
     }
 
     public function getId(): ?int
@@ -91,10 +107,10 @@ class Document
      * @ORM\PostUpdate()
      */
 	public function setFile($file = null)
-	{
-		$this->file = $file;
-
-	}
+                           	{
+                           		$this->file = $file;
+                           
+                           	}
 
 
     public function getDescription(): ?string
@@ -198,6 +214,42 @@ public function getExtension(): String {
         return end($var);
     }
     return  '';
+}
+
+public function getSize(): ?int
+{
+    return $this->size;
+}
+
+public function setSize(int $size): self
+{
+    $this->size = $size;
+
+    return $this;
+}
+
+public function getDeleteAt(): ?\DateTimeImmutable
+{
+    return $this->delete_at;
+}
+
+public function setDeleteAt(?\DateTimeImmutable $delete_at): self
+{
+    $this->delete_at = $delete_at;
+
+    return $this;
+}
+
+public function getIsDelete(): ?bool
+{
+    return $this->is_delete;
+}
+
+public function setIsDelete(bool $is_delete): self
+{
+    $this->is_delete = $is_delete;
+
+    return $this;
 }
 
 
